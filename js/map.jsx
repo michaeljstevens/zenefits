@@ -16,6 +16,16 @@ class Map extends Component {
       center: this.state.position
     });
 
+    const input = document.getElementById('pac-input');
+    const searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    let markers = [];
+
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = {
@@ -30,7 +40,10 @@ class Map extends Component {
 
   render() {
     return(
-      <div className = 'map' id='map'></div>
+      <div>
+        <input id="pac-input" className="controls" type="text" placeholder="Search Box"/>
+        <div className = 'map' id='map'></div>
+      </div>
     );
   }
 }

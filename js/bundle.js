@@ -21573,6 +21573,16 @@
 	        center: this.state.position
 	      });
 	
+	      var input = document.getElementById('pac-input');
+	      var searchBox = new google.maps.places.SearchBox(input);
+	      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	
+	      map.addListener('bounds_changed', function () {
+	        searchBox.setBounds(map.getBounds());
+	      });
+	
+	      var markers = [];
+	
 	      if (navigator.geolocation) {
 	        navigator.geolocation.getCurrentPosition(function (position) {
 	          var pos = {
@@ -21587,7 +21597,12 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement('div', { className: 'map', id: 'map' });
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('input', { id: 'pac-input', className: 'controls', type: 'text', placeholder: 'Search Box' }),
+	        _react2.default.createElement('div', { className: 'map', id: 'map' })
+	      );
 	    }
 	  }]);
 	
