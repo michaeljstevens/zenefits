@@ -1,0 +1,36 @@
+{
+  "name": "zenefits",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaeljstevens/zenefits.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "jquery": "^3.1.1",
+    "react": "^15.3.2",
+    "react-color": "^2.3.3",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "react-resizable": "^1.4.5",
+    "react-toggle-switch": "^2.1.2",
+    "redux": "^3.6.0",
+    "svg-animation-cpu-optimize": "github:arjunmehta/svg-animation-cpu-optimize",
+    "webpack": "^1.13.2"
+  },
+  "bugs": {
+    "url": "https://github.com/michaeljstevens/zenefits/issues"
+  },
+  "homepage": "https://github.com/michaeljstevens/zenefits#readme"
+}
