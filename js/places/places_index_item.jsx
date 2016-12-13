@@ -9,10 +9,11 @@ class PlacesIndexItem extends Component {
     const place = this.props.place;
     return(
       <div className='place-container'>
-        <img src={place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 })} />
-        <h1>{place.name}</h1>
-        <h2>{place.formatted_address}</h2>
-        <h2>{place.rating}</h2>
+        <img className='place-item-image' src={place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 })} />
+        <div className='place-details-container'>
+          <h1 className='place-name'>{place.name}</h1>
+          <h2 className='place-details'>{place.formatted_address}</h2>
+        </div>
       </div>
     );
   }

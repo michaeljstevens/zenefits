@@ -21794,21 +21794,20 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'place-container' },
-	        _react2.default.createElement('img', { src: place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }) }),
+	        _react2.default.createElement('img', { className: 'place-item-image', src: place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) }),
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          place.name
-	        ),
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          place.formatted_address
-	        ),
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          place.rating
+	          'div',
+	          { className: 'place-details-container' },
+	          _react2.default.createElement(
+	            'h1',
+	            { className: 'place-name' },
+	            place.name
+	          ),
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'place-details' },
+	            place.formatted_address
+	          )
 	        )
 	      );
 	    }
