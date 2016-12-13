@@ -21541,6 +21541,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _places_index = __webpack_require__(180);
+	
+	var _places_index2 = _interopRequireDefault(_places_index);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21558,7 +21562,8 @@
 	    var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, props));
 	
 	    _this.state = {
-	      position: { lat: 37.782703500000004, lng: -122.4194 }
+	      position: { lat: 37.782703500000004, lng: -122.4194 },
+	      places: []
 	    };
 	    return _this;
 	  }
@@ -21569,12 +21574,42 @@
 	      var _this2 = this;
 	
 	      var map = new google.maps.Map(document.getElementById('map'), {
-	        zoom: 4,
+	        zoom: 13,
 	        center: this.state.position
 	      });
 	
 	      var input = document.getElementById('pac-input');
 	      var searchBox = new google.maps.places.SearchBox(input);
+	      var infoWindow = new google.maps.InfoWindow();
+	      var service = new google.maps.places.PlacesService(map);
+	
+	      service.nearbySearch({
+	        location: this.state.position,
+	        radius: 500,
+	        type: ['store']
+	      }, serviceCallback);
+	
+	      var serviceCallback = function serviceCallback(results, status) {
+	        if (status === google.maps.places.PlacesServiceStatus.OK) {
+	          for (var i = 0; i < results.length; i++) {
+	            createMarker(results[i]);
+	          }
+	        }
+	      };
+	
+	      var createMarker = function createMarker(place) {
+	        var placeLocation = place.geometry.location;
+	        var marker = new google.maps.Marker({
+	          map: map,
+	          position: place.geometry.location
+	        });
+	
+	        google.maps.event.addListener(marker, 'click', function () {
+	          infoWindow.setContent(place.name);
+	          infoWindow.open(map, this);
+	        });
+	      };
+	
 	      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 	
 	      map.addListener('bounds_changed', function () {
@@ -21585,6 +21620,7 @@
 	
 	      searchBox.addListener('places_changed', function () {
 	        var places = searchBox.getPlaces();
+	        var placeDetails = [];
 	
 	        if (places.length === 0) return;
 	
@@ -21619,19 +21655,21 @@
 	            bounds.extend(place.geometry.location);
 	          }
 	        });
+	
+	        _this2.setState({ places: places });
 	        map.fitBounds(bounds);
 	      });
 	
-	      if (navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(function (position) {
-	          var pos = {
-	            lat: position.coords.latitude,
-	            lng: position.coords.longitude
-	          };
-	          map.setCenter(pos);
-	          _this2.setState({ position: pos });
-	        });
-	      }
+	      // if(navigator.geolocation) {
+	      //   navigator.geolocation.getCurrentPosition(position => {
+	      //     const pos = {
+	      //       lat: position.coords.latitude,
+	      //       lng: position.coords.longitude
+	      //     };
+	      //     map.setCenter(pos);
+	      //     this.setState({position: pos});
+	      //   });
+	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -21639,8 +21677,13 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement('input', { id: 'pac-input', className: 'controls', type: 'text', placeholder: 'Search Box' }),
-	        _react2.default.createElement('div', { className: 'map', id: 'map' })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'map-container' },
+	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for Places and Locations' }),
+	          _react2.default.createElement('div', { id: 'map', style: { width: "100vw", height: "100vh" } })
+	        ),
+	        _react2.default.createElement(_places_index2.default, { places: this.state.places })
 	      );
 	    }
 	  }]);
@@ -21649,6 +21692,132 @@
 	}(_react.Component);
 	
 	exports.default = Map;
+
+/***/ },
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _places_index_item = __webpack_require__(181);
+	
+	var _places_index_item2 = _interopRequireDefault(_places_index_item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlacesIndex = function (_Component) {
+	  _inherits(PlacesIndex, _Component);
+	
+	  function PlacesIndex(props) {
+	    _classCallCheck(this, PlacesIndex);
+	
+	    var _this = _possibleConstructorReturn(this, (PlacesIndex.__proto__ || Object.getPrototypeOf(PlacesIndex)).call(this, props));
+	
+	    _this.key = 0;
+	    return _this;
+	  }
+	
+	  _createClass(PlacesIndex, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'places-container' },
+	        this.props.places.map(function (place) {
+	          _this2.key++;
+	          return _react2.default.createElement(_places_index_item2.default, { key: _this2.key, place: place });
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return PlacesIndex;
+	}(_react.Component);
+	
+	exports.default = PlacesIndex;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlacesIndexItem = function (_Component) {
+	  _inherits(PlacesIndexItem, _Component);
+	
+	  function PlacesIndexItem(props) {
+	    _classCallCheck(this, PlacesIndexItem);
+	
+	    return _possibleConstructorReturn(this, (PlacesIndexItem.__proto__ || Object.getPrototypeOf(PlacesIndexItem)).call(this, props));
+	  }
+	
+	  _createClass(PlacesIndexItem, [{
+	    key: 'render',
+	    value: function render() {
+	      var place = this.props.place;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'place-container' },
+	        _react2.default.createElement('img', { src: place.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }) }),
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          place.name
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          place.formatted_address
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          place.rating
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return PlacesIndexItem;
+	}(_react.Component);
+	
+	exports.default = PlacesIndexItem;
 
 /***/ }
 /******/ ]);

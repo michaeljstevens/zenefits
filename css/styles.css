@@ -1,4 +1,41 @@
-.map {
-  width: 800px;
-  height: 500px;
+.root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.map-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.place-container {
+  display: flex;
+  height: 75px;
+  max-width: 300px;
+}
+
+.places-container {
+
+}
+
+.gmnoprint {
+  display: none;
+}
+
+.search-box {
+  background: #fff;
+  margin-top: 10px;
+  border-radius: 2px;
+  width: 364px;
+  height: 48px;
+  border-bottom: 1px solid transparent;
+  transition-property: background,box-shadow;
+  transition-duration: 0.3s;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 20px;
 }
