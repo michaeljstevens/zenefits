@@ -21791,10 +21791,11 @@
 	    key: 'render',
 	    value: function render() {
 	      var place = this.props.place;
+	      var img = place.photos ? place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : './assets/img/no_image.png';
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'place-container' },
-	        _react2.default.createElement('img', { className: 'place-item-image', src: place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) }),
+	        _react2.default.createElement('img', { className: 'place-item-image', src: img }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'place-details-container' },
