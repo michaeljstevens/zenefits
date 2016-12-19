@@ -36,6 +36,16 @@ class PlaceDetails extends Component {
       return(photo.getUrl({ maxWidth: 360, maxHeight: 200 }));
     }) : ['./assets/img/no_image.png'];
 
+    const reviews = place.reviews ? place.reviews.map(review => {
+      const url = review.profile_photo_url ? `https://${review.profile_photo_url.slice(2)}` : './assets/img/no_image.png';
+      return(
+        <div>
+          <div>{review.author_name}</div>
+          <a href={review.author_url} target="_blank"><img className='review-photo' src={url} /></a>
+        </div>
+      );
+    }) : [<div>No Reviews</div>];
+
     console.log(place);
 
     return(<div className="place-detail-container">
@@ -52,6 +62,9 @@ class PlaceDetails extends Component {
       </div>
       <div className="reviews">
         {this.buildStars(parseInt(place.rating))}
+        <div className="review-index">
+          {reviews}
+        </div>
       </div>
       <div className="place-details-info">
         <ul>

@@ -129,3 +129,15 @@ ul {
   height: 200px;
   width: 360px;
 }
+
+.reviews {
+}
+
+.review-index {
+  height: 200px;
+  overflow: auto;
+}
+
+.review-photo {
+  height: 75px;
+}

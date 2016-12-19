@@ -21936,6 +21936,28 @@
 	        return photo.getUrl({ maxWidth: 360, maxHeight: 200 });
 	      }) : ['./assets/img/no_image.png'];
 	
+	      var reviews = place.reviews ? place.reviews.map(function (review) {
+	        var url = review.profile_photo_url ? 'https://' + review.profile_photo_url.slice(2) : './assets/img/no_image.png';
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            review.author_name
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: review.author_url, target: '_blank' },
+	            _react2.default.createElement('img', { className: 'review-photo', src: url })
+	          )
+	        );
+	      }) : [_react2.default.createElement(
+	        'div',
+	        null,
+	        'No Reviews'
+	      )];
+	
 	      console.log(place);
 	
 	      return _react2.default.createElement(
@@ -21965,7 +21987,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'reviews' },
-	          this.buildStars(parseInt(place.rating))
+	          this.buildStars(parseInt(place.rating)),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'review-index' },
+	            reviews
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
