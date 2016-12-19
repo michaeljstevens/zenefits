@@ -14,13 +14,13 @@ class PlaceDetails extends Component {
     this.props.getDetails(request);
   }
 
-  buildStars(numStars) {
+  buildStars(numStars, size) {
     let stars = [];
     for(let i = 0; i < 5; i++) {
       if (i <= numStars) {
-        stars.push(<img className='star' src='./assets/img/star.png' />);
+        stars.push(<img className={`${size}-star`} src='./assets/img/star.png' />);
       } else {
-        stars.push(<img className='star' src='./assets/img/no_star.png' />);
+        stars.push(<img className={`${size}-star`} src='./assets/img/no_star.png' />);
       }
     }
     return stars;
@@ -30,7 +30,7 @@ class PlaceDetails extends Component {
     const place = this.props.placeDetails;
     let open;
     if (place.opening_hours) {
-      open = <li>Currently {place.opening_hours.open_now ? "Open" : "Closed"}</li>;
+      open = <li>{place.opening_hours.open_now ? "Open" : "Closed"}</li>;
     }
     const photos = place.photos ? place.photos.map(photo => {
       return(photo.getUrl({ maxWidth: 360, maxHeight: 200 }));
@@ -42,6 +42,9 @@ class PlaceDetails extends Component {
         <div>
           <div>{review.author_name}</div>
           <a href={review.author_url} target="_blank"><img className='review-photo' src={url} /></a>
+          {this.buildStars(parseInt(review.rating), 'small')}
+          <div>{review.relative_time_description}</div>
+          <div>{review.text}</div>
         </div>
       );
     }) : [<div>No Reviews</div>];
@@ -61,7 +64,7 @@ class PlaceDetails extends Component {
         </Slider>
       </div>
       <div className="reviews">
-        {this.buildStars(parseInt(place.rating))}
+        {this.buildStars(parseInt(place.rating), 'big')}
         <div className="review-index">
           {reviews}
         </div>

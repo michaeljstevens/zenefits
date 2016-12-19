@@ -115,7 +115,12 @@ ul {
   cursor: pointer;
 }
 
-.star {
+.big-star {
+  width: 40px;
+  height: 40px;
+}
+
+.small-star {
   width: 20px;
   height: 20px;
 }

@@ -21908,13 +21908,13 @@
 	    }
 	  }, {
 	    key: 'buildStars',
-	    value: function buildStars(numStars) {
+	    value: function buildStars(numStars, size) {
 	      var stars = [];
 	      for (var i = 0; i < 5; i++) {
 	        if (i <= numStars) {
-	          stars.push(_react2.default.createElement('img', { className: 'star', src: './assets/img/star.png' }));
+	          stars.push(_react2.default.createElement('img', { className: size + '-star', src: './assets/img/star.png' }));
 	        } else {
-	          stars.push(_react2.default.createElement('img', { className: 'star', src: './assets/img/no_star.png' }));
+	          stars.push(_react2.default.createElement('img', { className: size + '-star', src: './assets/img/no_star.png' }));
 	        }
 	      }
 	      return stars;
@@ -21922,13 +21922,14 @@
 	  }, {
 	    key: 'buildDetails',
 	    value: function buildDetails() {
+	      var _this2 = this;
+	
 	      var place = this.props.placeDetails;
 	      var open = void 0;
 	      if (place.opening_hours) {
 	        open = _react2.default.createElement(
 	          'li',
 	          null,
-	          'Currently ',
 	          place.opening_hours.open_now ? "Open" : "Closed"
 	        );
 	      }
@@ -21950,6 +21951,17 @@
 	            'a',
 	            { href: review.author_url, target: '_blank' },
 	            _react2.default.createElement('img', { className: 'review-photo', src: url })
+	          ),
+	          _this2.buildStars(parseInt(review.rating), 'small'),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            review.relative_time_description
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            review.text
 	          )
 	        );
 	      }) : [_react2.default.createElement(
@@ -21987,7 +21999,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'reviews' },
-	          this.buildStars(parseInt(place.rating)),
+	          this.buildStars(parseInt(place.rating), 'big'),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'review-index' },
