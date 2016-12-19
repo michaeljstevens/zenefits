@@ -7,11 +7,16 @@ class PlacesIndex extends Component {
   constructor(props) {
     super(props);
     this.key = 0;
-    // this.showDetails = this.showDetails.bind(this);
     this.state = {
       index: true,
       place: null
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.places !== this.props.places && this.state.index === false) {
+      this.setState({index: true});
+    }
   }
 
   showDetails(place) {

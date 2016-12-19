@@ -22,6 +22,7 @@
     "react": "^15.3.2",
     "react-color": "^2.3.3",
     "react-dom": "^15.3.2",
+    "react-image-slider": "^0.1.0",
     "react-redux": "^4.4.5",
     "react-resizable": "^1.4.5",
     "react-slick": "^0.14.5",

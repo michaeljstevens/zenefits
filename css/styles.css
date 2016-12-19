@@ -1,3 +1,8 @@
+ul {
+  list-style: none;
+}
+
+
 .root {
   width: 100%;
   height: 100%;
@@ -88,6 +93,10 @@
   left: 5px;
 }
 
+.place-detail-container {
+  background: white;
+}
+
 .place-details-header {
   display: flex;
   background: white;
@@ -106,6 +115,17 @@
   cursor: pointer;
 }
 
+.star {
+  width: 20px;
+  height: 20px;
+}
+
 .gmnoprint {
   display: none;
+}
+
+.slide-image {
+  object-fit: cover;
+  height: 200px;
+  width: 360px;
 }

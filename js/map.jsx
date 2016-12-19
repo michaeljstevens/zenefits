@@ -132,7 +132,9 @@ class Map extends Component {
           <input id="pac-input" className="search-box" type="text" placeholder="Search for Places and Locations"/>
           <div id='map' style={{width: "100vw", height: "100vh"}}></div>
         </div>
-        <PlacesIndex getDetails={this.state.getDetails} placeDetails={this.state.placeDetails} places={this.state.places} />
+        <PlacesIndex getDetails={this.state.getDetails}
+          placeDetails={this.state.placeDetails}
+          places={this.state.places} />
       </div>
     );
   }
