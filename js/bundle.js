@@ -21923,16 +21923,19 @@
 	    key: 'buildDetails',
 	    value: function buildDetails() {
 	      var place = this.props.placeDetails;
+	      var open = void 0;
+	      if (place.opening_hours) {
+	        open = _react2.default.createElement(
+	          'li',
+	          null,
+	          'Currently ',
+	          place.opening_hours.open_now ? "Open" : "Closed"
+	        );
+	      }
 	      var photos = place.photos ? place.photos.map(function (photo) {
-	        return _react2.default.createElement('img', { className: 'slide-image', key: photo.getUrl({ maxWidth: 360, maxHeight: 200 }), src: photo.getUrl({ maxWidth: 360, maxHeight: 200 }) });
-	      }) : _react2.default.createElement('img', { className: 'place-item-image', src: './assets/img/no_image.png' });
-	      var sliderOptions = {
-	        dots: true,
-	        infinite: true,
-	        speed: 500,
-	        slidesToShow: 1,
-	        slidesToScroll: 1
-	      };
+	        return photo.getUrl({ maxWidth: 360, maxHeight: 200 });
+	      }) : ['./assets/img/no_image.png'];
+	
 	      console.log(place);
 	
 	      return _react2.default.createElement(
@@ -21953,8 +21956,10 @@
 	          { className: 'photo-slider' },
 	          _react2.default.createElement(
 	            _reactImageSlider2.default,
-	            sliderOptions,
-	            photos
+	            { images: photos, isInfinite: true, delay: 5000 },
+	            photos.map(function (photo) {
+	              return _react2.default.createElement('img', { className: 'slide-image', key: photo, src: photo });
+	            })
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -21968,12 +21973,7 @@
 	          _react2.default.createElement(
 	            'ul',
 	            null,
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              'Currently ',
-	              place.opening_hours.open_now ? "Open" : "Closed"
-	            ),
+	            open,
 	            _react2.default.createElement(
 	              'li',
 	              null,

@@ -28,16 +28,14 @@ class PlaceDetails extends Component {
 
   buildDetails() {
     const place = this.props.placeDetails;
+    let open;
+    if (place.opening_hours) {
+      open = <li>Currently {place.opening_hours.open_now ? "Open" : "Closed"}</li>;
+    }
     const photos = place.photos ? place.photos.map(photo => {
-      return(<img className="slide-image" key={photo.getUrl({ maxWidth: 360, maxHeight: 200 })} src={photo.getUrl({ maxWidth: 360, maxHeight: 200 })} />);
-    }) : <img className='place-item-image' src='./assets/img/no_image.png' />;
-    const sliderOptions = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-    };
+      return(photo.getUrl({ maxWidth: 360, maxHeight: 200 }));
+    }) : ['./assets/img/no_image.png'];
+
     console.log(place);
 
     return(<div className="place-detail-container">
@@ -46,8 +44,10 @@ class PlaceDetails extends Component {
         <div className="place-detail-title">{place.name}</div>
       </div>
       <div className="photo-slider">
-        <Slider {...sliderOptions}>
-          {photos}
+        <Slider images={photos} isInfinite delay={5000}>
+          {photos.map(photo => {
+            return(<img className="slide-image" key={photo} src={photo} />);
+          })}
         </Slider>
       </div>
       <div className="reviews">
@@ -55,7 +55,7 @@ class PlaceDetails extends Component {
       </div>
       <div className="place-details-info">
         <ul>
-          <li>Currently {place.opening_hours.open_now ? "Open" : "Closed"}</li>
+          {open}
           <li>{place.formatted_address}</li>
           <li><a href={place.website} target="_blank">{place.website}</a></li>
           <li>{place.formatted_phone_number}</li>
