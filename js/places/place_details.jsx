@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
+import PlaceReviews from './place_reviews.jsx';
 import Slider from 'react-image-slider';
 
 class PlaceDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPhoto: 0
+      placeDetails: null,
+      currentPhoto: 0,
+      details: false,
+      reviews: false,
+      search: false
     };
+    this.renderReviews = this.renderReviews.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({details: true, placeDetails: props.placeDetails});
   }
 
   componentDidMount() {
@@ -24,6 +34,10 @@ class PlaceDetails extends Component {
       }
     }
     return stars;
+  }
+
+  renderReviews() {
+    this.setState({details: !this.state.details, reviews: !this.state.reviews, search: false});
   }
 
   buildDetails() {
@@ -65,9 +79,7 @@ class PlaceDetails extends Component {
       </div>
       <div className="reviews">
         {this.buildStars(parseInt(place.rating), 'big')}
-        <div className="review-index">
-          {reviews}
-        </div>
+        <button onClick={this.renderReviews}>Reviews</button>
       </div>
       <div className="place-details-info">
         <ul>
@@ -83,7 +95,10 @@ class PlaceDetails extends Component {
   render() {
     return(
       <div>
-        {this.props.placeDetails ? this.buildDetails() : null}
+        {this.state.details ? this.buildDetails() : null}
+        {this.state.reviews ? <PlaceReviews
+          renderReviews={this.renderReviews}
+          placeDetails={this.state.placeDetails} /> : null}
       </div>
     );
   }

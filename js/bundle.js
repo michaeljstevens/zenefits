@@ -21874,6 +21874,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _place_reviews = __webpack_require__(212);
+	
+	var _place_reviews2 = _interopRequireDefault(_place_reviews);
+	
 	var _reactImageSlider = __webpack_require__(200);
 	
 	var _reactImageSlider2 = _interopRequireDefault(_reactImageSlider);
@@ -21895,12 +21899,22 @@
 	    var _this = _possibleConstructorReturn(this, (PlaceDetails.__proto__ || Object.getPrototypeOf(PlaceDetails)).call(this, props));
 	
 	    _this.state = {
-	      currentPhoto: 0
+	      placeDetails: null,
+	      currentPhoto: 0,
+	      details: false,
+	      reviews: false,
+	      search: false
 	    };
+	    _this.renderReviews = _this.renderReviews.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(PlaceDetails, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      this.setState({ details: true, placeDetails: props.placeDetails });
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var request = { placeId: this.props.place.place_id };
@@ -21918,6 +21932,11 @@
 	        }
 	      }
 	      return stars;
+	    }
+	  }, {
+	    key: 'renderReviews',
+	    value: function renderReviews() {
+	      this.setState({ details: !this.state.details, reviews: !this.state.reviews, search: false });
 	    }
 	  }, {
 	    key: 'buildDetails',
@@ -22001,9 +22020,9 @@
 	          { className: 'reviews' },
 	          this.buildStars(parseInt(place.rating), 'big'),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'review-index' },
-	            reviews
+	            'button',
+	            { onClick: this.renderReviews },
+	            'Reviews'
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -22042,7 +22061,10 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.props.placeDetails ? this.buildDetails() : null
+	        this.state.details ? this.buildDetails() : null,
+	        this.state.reviews ? _react2.default.createElement(_place_reviews2.default, {
+	          renderReviews: this.renderReviews,
+	          placeDetails: this.state.placeDetails }) : null
 	      );
 	    }
 	  }]);
@@ -22385,6 +22407,75 @@
 	
 	  return WrapperComponent;
 	}
+
+/***/ },
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlaceReviews = function (_Component) {
+	  _inherits(PlaceReviews, _Component);
+	
+	  function PlaceReviews() {
+	    _classCallCheck(this, PlaceReviews);
+	
+	    return _possibleConstructorReturn(this, (PlaceReviews.__proto__ || Object.getPrototypeOf(PlaceReviews)).apply(this, arguments));
+	  }
+	
+	  _createClass(PlaceReviews, [{
+	    key: "render",
+	    value: function render() {
+	      var place = this.props.placeDetails;
+	      return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	          "div",
+	          { className: "place-details-header" },
+	          _react2.default.createElement("img", { className: "back-arrow", src: "./assets/img/back.png", onClick: this.props.renderReviews }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "place-detail-title" },
+	            place.name
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return PlaceReviews;
+	}(_react.Component);
+	
+	exports.default = PlaceReviews;
 
 /***/ }
 /******/ ]);
