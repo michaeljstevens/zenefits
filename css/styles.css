@@ -36,6 +36,7 @@
   top: 75px;
   max-height: 89%;
   overflow: auto;
+  overflow-x: hidden;
   border-radius: 2px;
   box-shadow: 1px 1px 15px;
 }
@@ -81,6 +82,24 @@
 
 .back-arrow {
   width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.place-details-header {
+  display: flex;
+  background: white;
+  justify-content: flex-end;
+}
+
+.place-detail-title {
+  margin: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  max-width: 285px;
+  text-align: center;
 }
 
 .back-arrow:hover {
