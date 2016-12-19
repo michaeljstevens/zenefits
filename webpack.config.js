@@ -1,4 +1,5 @@
 var path = require("path");
+var AnyBarWebpackPlugin = require('anybar-webpack');
 
 module.exports = {
   context: __dirname,
@@ -22,5 +23,10 @@ module.exports = {
   devtool: 'source-maps',
   resolve: {
     extensions: ["", ".js", ".jsx" ]
-  }
+  },
+  plugins: [
+    new AnyBarWebpackPlugin({
+      enableNotifications: true
+    })
+  ]
 };

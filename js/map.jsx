@@ -7,7 +7,9 @@ class Map extends Component {
     super(props);
     this.state = {
       position: {lat: 37.782703500000004, lng: -122.4194},
-      places: []
+      places: [],
+      getDetails: null,
+      placeDetails: null
     };
   }
 
@@ -22,12 +24,22 @@ class Map extends Component {
     const searchBox = new google.maps.places.SearchBox(input);
     const infoWindow = new google.maps.InfoWindow();
     const service = new google.maps.places.PlacesService(map);
+    const getDetails = (request) => {
+      service.getDetails(request, detailsCallback);
+    };
+
+    const detailsCallback = (results, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        this.setState({placeDetails: results});
+      }
+    };
 
     service.nearbySearch({
       location: this.state.position,
       radius: 500,
       type: ['store']
     }, serviceCallback);
+
 
 
     const serviceCallback = (results, status) => {
@@ -90,14 +102,13 @@ class Map extends Component {
         }));
 
         if (place.geometry.viewport) {
-          // Only geocodes have viewport.
           bounds.union(place.geometry.viewport);
         } else {
           bounds.extend(place.geometry.location);
         }
       });
 
-      this.setState({ places: places });
+      this.setState({ places: places, getDetails: getDetails });
       map.fitBounds(bounds);
     });
 
@@ -121,7 +132,7 @@ class Map extends Component {
           <input id="pac-input" className="search-box" type="text" placeholder="Search for Places and Locations"/>
           <div id='map' style={{width: "100vw", height: "100vh"}}></div>
         </div>
-        <PlacesIndex places={this.state.places} />
+        <PlacesIndex getDetails={this.state.getDetails} placeDetails={this.state.placeDetails} places={this.state.places} />
       </div>
     );
   }

@@ -21563,7 +21563,9 @@
 	
 	    _this.state = {
 	      position: { lat: 37.782703500000004, lng: -122.4194 },
-	      places: []
+	      places: [],
+	      getDetails: null,
+	      placeDetails: null
 	    };
 	    return _this;
 	  }
@@ -21582,6 +21584,15 @@
 	      var searchBox = new google.maps.places.SearchBox(input);
 	      var infoWindow = new google.maps.InfoWindow();
 	      var service = new google.maps.places.PlacesService(map);
+	      var getDetails = function getDetails(request) {
+	        service.getDetails(request, detailsCallback);
+	      };
+	
+	      var detailsCallback = function detailsCallback(results, status) {
+	        if (status == google.maps.places.PlacesServiceStatus.OK) {
+	          _this2.setState({ placeDetails: results });
+	        }
+	      };
 	
 	      service.nearbySearch({
 	        location: this.state.position,
@@ -21649,14 +21660,13 @@
 	          }));
 	
 	          if (place.geometry.viewport) {
-	            // Only geocodes have viewport.
 	            bounds.union(place.geometry.viewport);
 	          } else {
 	            bounds.extend(place.geometry.location);
 	          }
 	        });
 	
-	        _this2.setState({ places: places });
+	        _this2.setState({ places: places, getDetails: getDetails });
 	        map.fitBounds(bounds);
 	      });
 	
@@ -21683,7 +21693,7 @@
 	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for Places and Locations' }),
 	          _react2.default.createElement('div', { id: 'map', style: { width: "100vw", height: "100vh" } })
 	        ),
-	        _react2.default.createElement(_places_index2.default, { places: this.state.places })
+	        _react2.default.createElement(_places_index2.default, { getDetails: this.state.getDetails, placeDetails: this.state.placeDetails, places: this.state.places })
 	      );
 	    }
 	  }]);
@@ -21713,6 +21723,10 @@
 	
 	var _places_index_item2 = _interopRequireDefault(_places_index_item);
 	
+	var _place_details = __webpack_require__(182);
+	
+	var _place_details2 = _interopRequireDefault(_place_details);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21730,21 +21744,38 @@
 	    var _this = _possibleConstructorReturn(this, (PlacesIndex.__proto__ || Object.getPrototypeOf(PlacesIndex)).call(this, props));
 	
 	    _this.key = 0;
+	    // this.showDetails = this.showDetails.bind(this);
+	    _this.state = {
+	      index: true,
+	      place: null
+	    };
 	    return _this;
 	  }
 	
 	  _createClass(PlacesIndex, [{
+	    key: 'showDetails',
+	    value: function showDetails(place) {
+	      var _this2 = this;
+	
+	      return function () {
+	        _this2.setState({ index: !_this2.state.index, place: place });
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'places-container' },
-	        this.props.places.map(function (place) {
-	          _this2.key++;
-	          return _react2.default.createElement(_places_index_item2.default, { key: _this2.key, place: place });
-	        })
+	        this.state.index ? this.props.places.map(function (place) {
+	          _this3.key++;
+	          return _react2.default.createElement(_places_index_item2.default, { onClick: _this3.showDetails(place), key: _this3.key, place: place });
+	        }) : _react2.default.createElement(_place_details2.default, { goBack: this.showDetails(this.state.place),
+	          placeDetails: this.props.placeDetails,
+	          getDetails: this.props.getDetails,
+	          place: this.state.place })
 	      );
 	    }
 	  }]);
@@ -21794,7 +21825,7 @@
 	      var img = place.photos ? place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : './assets/img/no_image.png';
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'place-container' },
+	        { onClick: this.props.onClick, className: 'place-container' },
 	        _react2.default.createElement('img', { className: 'place-item-image', src: img }),
 	        _react2.default.createElement(
 	          'div',
@@ -21818,6 +21849,61 @@
 	}(_react.Component);
 	
 	exports.default = PlacesIndexItem;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlaceDetails = function (_Component) {
+	  _inherits(PlaceDetails, _Component);
+	
+	  function PlaceDetails(props) {
+	    _classCallCheck(this, PlaceDetails);
+	
+	    return _possibleConstructorReturn(this, (PlaceDetails.__proto__ || Object.getPrototypeOf(PlaceDetails)).call(this, props));
+	  }
+	
+	  _createClass(PlaceDetails, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var request = { placeId: this.props.place.place_id };
+	      this.props.getDetails(request);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.props.goBack })
+	      );
+	    }
+	  }]);
+	
+	  return PlaceDetails;
+	}(_react.Component);
+	
+	exports.default = PlaceDetails;
 
 /***/ }
 /******/ ]);

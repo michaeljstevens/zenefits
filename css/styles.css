@@ -79,6 +79,14 @@
   color: grey;
 }
 
+.back-arrow {
+  width: 40px;
+}
+
+.back-arrow:hover {
+  cursor: pointer;
+}
+
 .gmnoprint {
   display: none;
 }
