@@ -8,7 +8,9 @@ class Map extends Component {
     this.state = {
       position: {lat: 37.782703500000004, lng: -122.4194},
       places: [],
+      allPlaces: [],
       getDetails: null,
+      detailMarker: null,
       placeDetails: null,
       shouldUpdate: true
     };
@@ -21,16 +23,24 @@ class Map extends Component {
       center: this.state.position
     });
 
+    this.map = map;
+
     const input = document.getElementById('pac-input');
     const searchBox = new google.maps.places.SearchBox(input);
     const infoWindow = new google.maps.InfoWindow();
     const service = new google.maps.places.PlacesService(map);
+
     const getDetails = (request) => {
       service.getDetails(request, detailsCallback);
     };
 
     const detailsCallback = (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
+        this.state.allPlaces.forEach(place => {
+          if (place.place.geometry.location.lat() !== results.geometry.location.lat() || place.place.geometry.location.lng() !== results.geometry.location.lng()) {
+            place.marker.setMap(null);
+          }
+        });
         this.setState({placeDetails: results});
       }
     };
@@ -70,19 +80,16 @@ class Map extends Component {
       searchBox.setBounds(map.getBounds());
     });
 
-    let markers = [];
-
     searchBox.addListener('places_changed', () => {
+
+      this.state.allPlaces.forEach(place => {
+        place.marker.setMap(null);
+      });
+
       const places = searchBox.getPlaces();
       let allPlaces = [];
       const placeDetails = [];
-
       if(places.length === 0) return;
-
-      markers.forEach(marker => {
-        marker.setMap(null);
-      });
-      markers = [];
 
       const bounds = new google.maps.LatLngBounds();
       places.forEach(place => {
@@ -136,16 +143,16 @@ class Map extends Component {
     });
 
 
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        map.setCenter(pos);
-        this.setState({position: pos});
-      });
-    }
+    // if(navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(position => {
+    //     const pos = {
+    //       lat: position.coords.latitude,
+    //       lng: position.coords.longitude
+    //     };
+    //     map.setCenter(pos);
+    //     this.setState({position: pos});
+    //   });
+    // }
   }
 
   render() {
@@ -159,7 +166,8 @@ class Map extends Component {
         <PlacesIndex getDetails={this.state.getDetails}
           placeDetails={this.state.placeDetails}
           places={this.state.places}
-          shouldUpdate={this.state.shouldUpdate} />
+          shouldUpdate={this.state.shouldUpdate}
+          map={this.map ? this.map : null}/>
       </div>
     );
   }

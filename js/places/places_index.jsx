@@ -21,6 +21,11 @@ class PlacesIndex extends Component {
 
   showDetails(place) {
     return () => {
+      if (!this.state.index) {
+        this.props.places.forEach(p => {
+          p.marker.setMap(this.props.map);
+        });
+      }
       this.setState({index: !this.state.index, place: place});
     };
   }

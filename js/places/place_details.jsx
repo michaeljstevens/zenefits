@@ -11,8 +11,7 @@ class PlaceDetails extends Component {
       currentPhoto: 0,
       details: false,
       reviews: false,
-      search: false,
-      colors: ['blue', 'red', 'orange', 'purple']
+      search: false
     };
     this.renderReviews = this.renderReviews.bind(this);
     this.renderSearch = this.renderSearch.bind(this);
@@ -133,7 +132,7 @@ class PlaceDetails extends Component {
   render() {
     return(
       <div>
-        <div className="place-details-header" style={{background: `${this.state.colors[parseInt(Math.random() * 4)]}`}}>
+        <div className="place-details-header" style={{background: 'blue'}}>
           <img className="back-arrow" src='./assets/img/back.png' onClick={this.state.details ? this.props.goBack : this.navigate} />
           <div className="place-detail-title">{this.props.place.name}</div>
         </div>

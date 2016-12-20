@@ -21564,7 +21564,9 @@
 	    _this.state = {
 	      position: { lat: 37.782703500000004, lng: -122.4194 },
 	      places: [],
+	      allPlaces: [],
 	      getDetails: null,
+	      detailMarker: null,
 	      placeDetails: null,
 	      shouldUpdate: true
 	    };
@@ -21581,16 +21583,24 @@
 	        center: this.state.position
 	      });
 	
+	      this.map = map;
+	
 	      var input = document.getElementById('pac-input');
 	      var searchBox = new google.maps.places.SearchBox(input);
 	      var infoWindow = new google.maps.InfoWindow();
 	      var service = new google.maps.places.PlacesService(map);
+	
 	      var getDetails = function getDetails(request) {
 	        service.getDetails(request, detailsCallback);
 	      };
 	
 	      var detailsCallback = function detailsCallback(results, status) {
 	        if (status == google.maps.places.PlacesServiceStatus.OK) {
+	          _this2.state.allPlaces.forEach(function (place) {
+	            if (place.place.geometry.location.lat() !== results.geometry.location.lat() || place.place.geometry.location.lng() !== results.geometry.location.lng()) {
+	              place.marker.setMap(null);
+	            }
+	          });
 	          _this2.setState({ placeDetails: results });
 	        }
 	      };
@@ -21628,19 +21638,16 @@
 	        searchBox.setBounds(map.getBounds());
 	      });
 	
-	      var markers = [];
-	
 	      searchBox.addListener('places_changed', function () {
+	
+	        _this2.state.allPlaces.forEach(function (place) {
+	          place.marker.setMap(null);
+	        });
+	
 	        var places = searchBox.getPlaces();
 	        var allPlaces = [];
 	        var placeDetails = [];
-	
 	        if (places.length === 0) return;
-	
-	        markers.forEach(function (marker) {
-	          marker.setMap(null);
-	        });
-	        markers = [];
 	
 	        var bounds = new google.maps.LatLngBounds();
 	        places.forEach(function (place) {
@@ -21693,16 +21700,16 @@
 	        google.maps.event.addListener(map, 'bounds_changed', updatePlaces);
 	      });
 	
-	      if (navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(function (position) {
-	          var pos = {
-	            lat: position.coords.latitude,
-	            lng: position.coords.longitude
-	          };
-	          map.setCenter(pos);
-	          _this2.setState({ position: pos });
-	        });
-	      }
+	      // if(navigator.geolocation) {
+	      //   navigator.geolocation.getCurrentPosition(position => {
+	      //     const pos = {
+	      //       lat: position.coords.latitude,
+	      //       lng: position.coords.longitude
+	      //     };
+	      //     map.setCenter(pos);
+	      //     this.setState({position: pos});
+	      //   });
+	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -21720,7 +21727,8 @@
 	        _react2.default.createElement(_places_index2.default, { getDetails: this.state.getDetails,
 	          placeDetails: this.state.placeDetails,
 	          places: this.state.places,
-	          shouldUpdate: this.state.shouldUpdate })
+	          shouldUpdate: this.state.shouldUpdate,
+	          map: this.map ? this.map : null })
 	      );
 	    }
 	  }]);
@@ -21791,6 +21799,11 @@
 	      var _this2 = this;
 	
 	      return function () {
+	        if (!_this2.state.index) {
+	          _this2.props.places.forEach(function (p) {
+	            p.marker.setMap(_this2.props.map);
+	          });
+	        }
 	        _this2.setState({ index: !_this2.state.index, place: place });
 	      };
 	    }
@@ -21947,8 +21960,7 @@
 	      currentPhoto: 0,
 	      details: false,
 	      reviews: false,
-	      search: false,
-	      colors: ['blue', 'red', 'orange', 'purple']
+	      search: false
 	    };
 	    _this.renderReviews = _this.renderReviews.bind(_this);
 	    _this.renderSearch = _this.renderSearch.bind(_this);
@@ -22139,7 +22151,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'place-details-header', style: { background: '' + this.state.colors[parseInt(Math.random() * 4)] } },
+	          { className: 'place-details-header', style: { background: 'blue' } },
 	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.state.details ? this.props.goBack : this.navigate }),
 	          _react2.default.createElement(
 	            'div',
