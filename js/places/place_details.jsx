@@ -107,7 +107,7 @@ class PlaceDetails extends Component {
           onClick={this.renderReviews}>{place.reviews.length} Reviews</button> :
           <div className='detail-buttons'>No Reviews</div>}
       </div>
-      <button style={{paddingRight: '43px', color: 'red', fontWeight: 'bold', textAlign: 'right'}} className='detail-buttons'
+      <button style={{paddingRight: '36px', color: 'red', fontWeight: 'bold', textAlign: 'right'}} className='detail-buttons'
         onClick={this.renderSearch}>{place.name} News</button>
       <div className="place-details-info">
         <ul>

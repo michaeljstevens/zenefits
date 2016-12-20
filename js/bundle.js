@@ -22093,7 +22093,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { style: { paddingRight: '43px', color: 'red', fontWeight: 'bold', textAlign: 'right' }, className: 'detail-buttons',
+	          { style: { paddingRight: '36px', color: 'red', fontWeight: 'bold', textAlign: 'right' }, className: 'detail-buttons',
 	            onClick: this.renderSearch },
 	          place.name,
 	          ' News'
