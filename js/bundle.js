@@ -21679,7 +21679,11 @@
 	          }
 	        });
 	
-	        _this2.setState({ allPlaces: allPlaces, places: allPlaces, getDetails: getDetails, shouldUpdate: true });
+	        _this2.setState({ allPlaces: allPlaces,
+	          places: allPlaces,
+	          getDetails: getDetails,
+	          shouldUpdate: true });
+	
 	        map.fitBounds(bounds);
 	
 	        var updatePlaces = function updatePlaces() {

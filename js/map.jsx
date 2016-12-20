@@ -56,7 +56,7 @@ class Map extends Component {
 
     const serviceCallback = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
+        for (let i = 0; i < results.length; i++) {
           createMarker(results[i]);
         }
       }
@@ -122,7 +122,11 @@ class Map extends Component {
         }
       });
 
-      this.setState({ allPlaces: allPlaces, places: allPlaces, getDetails: getDetails, shouldUpdate: true });
+      this.setState({ allPlaces: allPlaces, 
+        places: allPlaces,
+        getDetails: getDetails,
+        shouldUpdate: true });
+
       map.fitBounds(bounds);
 
       const updatePlaces = () => {
