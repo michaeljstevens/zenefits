@@ -177,3 +177,31 @@ ul {
   padding: 20px;
   border-bottom: 1px solid lightgrey;
 }
+
+.news-index {
+  background: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.news-item {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.news-item:hover {
+  background: #f0f0f0;
+}
+
+.news-thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.news-text {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

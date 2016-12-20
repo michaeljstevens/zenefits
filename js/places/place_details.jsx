@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PlaceReviews from './place_reviews.jsx';
+import PlaceSearch from './place_search.jsx';
 import Slider from 'react-image-slider';
 
 class PlaceDetails extends Component {
@@ -13,6 +14,7 @@ class PlaceDetails extends Component {
       search: false
     };
     this.renderReviews = this.renderReviews.bind(this);
+    this.renderSearch = this.renderSearch.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -38,6 +40,10 @@ class PlaceDetails extends Component {
 
   renderReviews() {
     this.setState({details: !this.state.details, reviews: !this.state.reviews, search: false});
+  }
+
+  renderSearch() {
+    this.setState({details: !this.state.details, reviews: false, search: !this.state.search});
   }
 
   buildDetails() {
@@ -68,6 +74,9 @@ class PlaceDetails extends Component {
         {this.buildStars(parseInt(place.rating), 'big')}
         {place.reviews ? <button onClick={this.renderReviews}>Reviews</button> : "No Reviews"}
       </div>
+      <div className="search">
+        <button onClick={this.renderSearch}>Search</button>
+      </div>
       <div className="place-details-info">
         <ul>
           {open}
@@ -87,6 +96,9 @@ class PlaceDetails extends Component {
           renderReviews={this.renderReviews}
           placeDetails={this.state.placeDetails}
           buildStars={this.buildStars} /> : null}
+        {this.state.search ? <PlaceSearch
+          renderSearch={this.renderSearch}
+          place={this.props.place} /> : null}
       </div>
     );
   }
