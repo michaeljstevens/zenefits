@@ -71,7 +71,7 @@ class PlaceDetails extends Component {
 
     console.log(place);
 
-    return(<div className="place-detail-container">
+    return(<div>
       <div className="photo-slider">
         <Slider images={photos} isInfinite delay={5000}>
           {photos.map(photo => {
@@ -86,7 +86,7 @@ class PlaceDetails extends Component {
       <div className="search">
         <button onClick={this.renderSearch}>Search</button>
       </div>
-      <div className="place-details-info">
+          <div className="place-details-info">
         <ul>
           {open}
           <li>{place.formatted_address}</li>
@@ -104,12 +104,14 @@ class PlaceDetails extends Component {
           <img className="back-arrow" src='./assets/img/back.png' onClick={this.state.details ? this.props.goBack : this.navigate} />
           <div className="place-detail-title">{this.props.place.name}</div>
         </div>
-        {this.state.details ? this.buildDetails() : null}
-        {this.state.reviews ? <PlaceReviews
-          placeDetails={this.state.placeDetails}
-          buildStars={this.buildStars} /> : null}
-        {this.state.search ? <PlaceSearch
-          place={this.props.place} /> : null}
+        <div className="place-details-container">
+          {this.state.details ? this.buildDetails() : null}
+          {this.state.reviews ? <PlaceReviews
+            placeDetails={this.state.placeDetails}
+            buildStars={this.buildStars} /> : null}
+          {this.state.search ? <PlaceSearch
+            place={this.props.place} /> : null}
+        </div>
       </div>
     );
   }

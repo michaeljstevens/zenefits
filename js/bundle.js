@@ -21837,7 +21837,7 @@
 	        _react2.default.createElement('img', { className: 'place-item-image', src: img }),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'place-details-container' },
+	          { className: 'place-index-details-container' },
 	          _react2.default.createElement(
 	            'h1',
 	            { className: 'place-name' },
@@ -21986,7 +21986,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'place-detail-container' },
+	        null,
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'photo-slider' },
@@ -22063,12 +22063,16 @@
 	            this.props.place.name
 	          )
 	        ),
-	        this.state.details ? this.buildDetails() : null,
-	        this.state.reviews ? _react2.default.createElement(_place_reviews2.default, {
-	          placeDetails: this.state.placeDetails,
-	          buildStars: this.buildStars }) : null,
-	        this.state.search ? _react2.default.createElement(_place_search2.default, {
-	          place: this.props.place }) : null
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'place-details-container' },
+	          this.state.details ? this.buildDetails() : null,
+	          this.state.reviews ? _react2.default.createElement(_place_reviews2.default, {
+	            placeDetails: this.state.placeDetails,
+	            buildStars: this.buildStars }) : null,
+	          this.state.search ? _react2.default.createElement(_place_search2.default, {
+	            place: this.props.place }) : null
+	        )
 	      );
 	    }
 	  }]);

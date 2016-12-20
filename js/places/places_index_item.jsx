@@ -11,7 +11,7 @@ class PlacesIndexItem extends Component {
     return(
       <div onClick={this.props.onClick} className='place-container'>
         <img className='place-item-image' src={img} />
-        <div className='place-details-container'>
+        <div className='place-index-details-container'>
           <h1 className='place-name'>{place.name}</h1>
           <h2 className='place-details'>{place.formatted_address}</h2>
         </div>
