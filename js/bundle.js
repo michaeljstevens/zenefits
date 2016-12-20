@@ -21947,7 +21947,8 @@
 	      currentPhoto: 0,
 	      details: false,
 	      reviews: false,
-	      search: false
+	      search: false,
+	      colors: ['blue', 'red', 'orange', 'purple']
 	    };
 	    _this.renderReviews = _this.renderReviews.bind(_this);
 	    _this.renderSearch = _this.renderSearch.bind(_this);
@@ -22138,7 +22139,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'place-details-header' },
+	          { className: 'place-details-header', style: { background: '' + this.state.colors[parseInt(Math.random() * 4)] } },
 	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.state.details ? this.props.goBack : this.navigate }),
 	          _react2.default.createElement(
 	            'div',

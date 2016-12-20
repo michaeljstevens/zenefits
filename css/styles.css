@@ -125,7 +125,7 @@ button:focus {outline:0;}
 
 .place-details-header {
   display: flex;
-  background: blue;
+  /*background: blue;*/
   justify-content: flex-end;
 }
 
