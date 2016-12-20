@@ -28,12 +28,12 @@ class PlaceDetails extends Component {
     let stars = [];
     for(let i = 0; i < 5; i++) {
       if (i <= numStars) {
-        stars.push(<img className={`${size}-star`} src='./assets/img/star.png' />);
+        stars.push(<img className={`${size}-star`} key={i} src='./assets/img/star.png' />);
       } else {
-        stars.push(<img className={`${size}-star`} src='./assets/img/no_star.png' />);
+        stars.push(<img className={`${size}-star`} key={i} src='./assets/img/no_star.png' />);
       }
     }
-    return stars;
+    return <div className='stars'>{stars}</div>;
   }
 
   renderReviews() {
@@ -49,19 +49,6 @@ class PlaceDetails extends Component {
     const photos = place.photos ? place.photos.map(photo => {
       return(photo.getUrl({ maxWidth: 360, maxHeight: 200 }));
     }) : ['./assets/img/no_image.png'];
-
-    const reviews = place.reviews ? place.reviews.map(review => {
-      const url = review.profile_photo_url ? `https://${review.profile_photo_url.slice(2)}` : './assets/img/no_image.png';
-      return(
-        <div>
-          <div>{review.author_name}</div>
-          <a href={review.author_url} target="_blank"><img className='review-photo' src={url} /></a>
-          {this.buildStars(parseInt(review.rating), 'small')}
-          <div>{review.relative_time_description}</div>
-          <div>{review.text}</div>
-        </div>
-      );
-    }) : [<div>No Reviews</div>];
 
     console.log(place);
 
@@ -79,7 +66,7 @@ class PlaceDetails extends Component {
       </div>
       <div className="reviews">
         {this.buildStars(parseInt(place.rating), 'big')}
-        <button onClick={this.renderReviews}>Reviews</button>
+        {place.reviews ? <button onClick={this.renderReviews}>Reviews</button> : "No Reviews"}
       </div>
       <div className="place-details-info">
         <ul>
@@ -98,7 +85,8 @@ class PlaceDetails extends Component {
         {this.state.details ? this.buildDetails() : null}
         {this.state.reviews ? <PlaceReviews
           renderReviews={this.renderReviews}
-          placeDetails={this.state.placeDetails} /> : null}
+          placeDetails={this.state.placeDetails}
+          buildStars={this.buildStars} /> : null}
       </div>
     );
   }

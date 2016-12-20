@@ -21874,11 +21874,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _place_reviews = __webpack_require__(212);
+	var _place_reviews = __webpack_require__(183);
 	
 	var _place_reviews2 = _interopRequireDefault(_place_reviews);
 	
-	var _reactImageSlider = __webpack_require__(200);
+	var _reactImageSlider = __webpack_require__(184);
 	
 	var _reactImageSlider2 = _interopRequireDefault(_reactImageSlider);
 	
@@ -21926,12 +21926,16 @@
 	      var stars = [];
 	      for (var i = 0; i < 5; i++) {
 	        if (i <= numStars) {
-	          stars.push(_react2.default.createElement('img', { className: size + '-star', src: './assets/img/star.png' }));
+	          stars.push(_react2.default.createElement('img', { className: size + '-star', key: i, src: './assets/img/star.png' }));
 	        } else {
-	          stars.push(_react2.default.createElement('img', { className: size + '-star', src: './assets/img/no_star.png' }));
+	          stars.push(_react2.default.createElement('img', { className: size + '-star', key: i, src: './assets/img/no_star.png' }));
 	        }
 	      }
-	      return stars;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'stars' },
+	        stars
+	      );
 	    }
 	  }, {
 	    key: 'renderReviews',
@@ -21941,8 +21945,6 @@
 	  }, {
 	    key: 'buildDetails',
 	    value: function buildDetails() {
-	      var _this2 = this;
-	
 	      var place = this.props.placeDetails;
 	      var open = void 0;
 	      if (place.opening_hours) {
@@ -21955,39 +21957,6 @@
 	      var photos = place.photos ? place.photos.map(function (photo) {
 	        return photo.getUrl({ maxWidth: 360, maxHeight: 200 });
 	      }) : ['./assets/img/no_image.png'];
-	
-	      var reviews = place.reviews ? place.reviews.map(function (review) {
-	        var url = review.profile_photo_url ? 'https://' + review.profile_photo_url.slice(2) : './assets/img/no_image.png';
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            review.author_name
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { href: review.author_url, target: '_blank' },
-	            _react2.default.createElement('img', { className: 'review-photo', src: url })
-	          ),
-	          _this2.buildStars(parseInt(review.rating), 'small'),
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            review.relative_time_description
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            review.text
-	          )
-	        );
-	      }) : [_react2.default.createElement(
-	        'div',
-	        null,
-	        'No Reviews'
-	      )];
 	
 	      console.log(place);
 	
@@ -22019,11 +21988,11 @@
 	          'div',
 	          { className: 'reviews' },
 	          this.buildStars(parseInt(place.rating), 'big'),
-	          _react2.default.createElement(
+	          place.reviews ? _react2.default.createElement(
 	            'button',
 	            { onClick: this.renderReviews },
 	            'Reviews'
-	          )
+	          ) : "No Reviews"
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -22064,7 +22033,8 @@
 	        this.state.details ? this.buildDetails() : null,
 	        this.state.reviews ? _react2.default.createElement(_place_reviews2.default, {
 	          renderReviews: this.renderReviews,
-	          placeDetails: this.state.placeDetails }) : null
+	          placeDetails: this.state.placeDetails,
+	          buildStars: this.buildStars }) : null
 	      );
 	    }
 	  }]);
@@ -22075,24 +22045,7 @@
 	exports.default = PlaceDetails;
 
 /***/ },
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22107,7 +22060,101 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ImageSliderHoc = __webpack_require__(201);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlaceReviews = function (_Component) {
+	  _inherits(PlaceReviews, _Component);
+	
+	  function PlaceReviews() {
+	    _classCallCheck(this, PlaceReviews);
+	
+	    return _possibleConstructorReturn(this, (PlaceReviews.__proto__ || Object.getPrototypeOf(PlaceReviews)).apply(this, arguments));
+	  }
+	
+	  _createClass(PlaceReviews, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var place = this.props.placeDetails;
+	      var reviews = place.reviews.map(function (review) {
+	        var url = review.profile_photo_url ? 'https://' + review.profile_photo_url.slice(2) : './assets/img/no_image.png';
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'review-item', key: review.time },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'review-info' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'review-author' },
+	              review.author_name
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { href: review.author_url, target: '_blank' },
+	              _react2.default.createElement('img', { className: 'review-photo', src: url })
+	            ),
+	            _this2.props.buildStars(parseInt(review.rating), 'small'),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'review-time' },
+	              review.relative_time_description
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'review-text' },
+	            review.text
+	          )
+	        );
+	      });
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'review-index' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'place-details-header' },
+	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.props.renderReviews }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'place-detail-title' },
+	            place.name
+	          )
+	        ),
+	        reviews
+	      );
+	    }
+	  }]);
+	
+	  return PlaceReviews;
+	}(_react.Component);
+	
+	exports.default = PlaceReviews;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ImageSliderHoc = __webpack_require__(185);
 	
 	var _ImageSliderHoc2 = _interopRequireDefault(_ImageSliderHoc);
 	
@@ -22296,7 +22343,7 @@
 	exports.default = (0, _ImageSliderHoc2.default)(Slider);
 
 /***/ },
-/* 201 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22407,75 +22454,6 @@
 	
 	  return WrapperComponent;
 	}
-
-/***/ },
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var PlaceReviews = function (_Component) {
-	  _inherits(PlaceReviews, _Component);
-	
-	  function PlaceReviews() {
-	    _classCallCheck(this, PlaceReviews);
-	
-	    return _possibleConstructorReturn(this, (PlaceReviews.__proto__ || Object.getPrototypeOf(PlaceReviews)).apply(this, arguments));
-	  }
-	
-	  _createClass(PlaceReviews, [{
-	    key: "render",
-	    value: function render() {
-	      var place = this.props.placeDetails;
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "div",
-	          { className: "place-details-header" },
-	          _react2.default.createElement("img", { className: "back-arrow", src: "./assets/img/back.png", onClick: this.props.renderReviews }),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "place-detail-title" },
-	            place.name
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return PlaceReviews;
-	}(_react.Component);
-	
-	exports.default = PlaceReviews;
 
 /***/ }
 /******/ ]);
