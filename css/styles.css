@@ -89,8 +89,8 @@ ul {
   width: 40px;
   height: 40px;
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 10px;
+  left: 10px;
 }
 
 .place-detail-container {
@@ -99,20 +99,24 @@ ul {
 
 .place-details-header {
   display: flex;
-  background: white;
+  background: blue;
   justify-content: flex-end;
 }
 
 .place-detail-title {
   margin: 10px;
   font-family: 'Roboto', sans-serif;
-  font-size: 30px;
-  max-width: 285px;
+  font-size: 32px;
+  color: white;
+  width: 285px;
   text-align: center;
 }
 
 .back-arrow:hover {
   cursor: pointer;
+}
+
+.stars {
 }
 
 .big-star {
@@ -139,10 +143,65 @@ ul {
 }
 
 .review-index {
-  height: 200px;
   overflow: auto;
+  background: white;
+  font-family: 'Roboto', sans-serif;
 }
 
 .review-photo {
-  height: 75px;
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-author {
+  font-size: 20px;
+}
+
+.review-time {
+  font-size: 14px;
+  color: grey;
+}
+
+.review-text {
+  margin-left: 20px;
+}
+
+.review-item {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.news-index {
+  background: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.news-item {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.news-item:hover {
+  background: #f0f0f0;
+}
+
+.news-thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.news-text {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
