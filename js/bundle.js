@@ -21931,7 +21931,7 @@
 	    value: function buildStars(numStars, size) {
 	      var stars = [];
 	      for (var i = 0; i < 5; i++) {
-	        if (i <= numStars) {
+	        if (i < numStars) {
 	          stars.push(_react2.default.createElement('img', { className: size + '-star', key: i, src: './assets/img/star.png' }));
 	        } else {
 	          stars.push(_react2.default.createElement('img', { className: size + '-star', key: i, src: './assets/img/no_star.png' }));
@@ -21973,9 +21973,21 @@
 	      var open = void 0;
 	      if (place.opening_hours) {
 	        open = _react2.default.createElement(
-	          'li',
+	          'div',
 	          null,
-	          place.opening_hours.open_now ? "Open" : "Closed"
+	          place.opening_hours.open_now ? "Open" : "Closed",
+	          ' Now',
+	          _react2.default.createElement(
+	            'ul',
+	            { style: { marginBottom: '10px' } },
+	            place.opening_hours.weekday_text.map(function (day) {
+	              return _react2.default.createElement(
+	                'li',
+	                { style: { fontSize: '13px', color: 'grey', padding: '2px' }, key: day },
+	                day
+	              );
+	            })
+	          )
 	        );
 	      }
 	      var photos = place.photos ? place.photos.map(function (photo) {
@@ -21983,6 +21995,18 @@
 	      }) : ['./assets/img/no_image.png'];
 	
 	      console.log(place);
+	
+	      var rating = 0;
+	
+	      if (!place.rating && place.reviews) {
+	        var sum = 0;
+	        place.reviews.forEach(function (review) {
+	          sum += review.rating;
+	        });
+	        rating = parseInt(sum / place.reviews.length);
+	      } else if (place.rating) {
+	        rating = parseInt(place.rating);
+	      }
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -22001,21 +22025,25 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'reviews' },
-	          this.buildStars(parseInt(place.rating), 'big'),
+	          this.buildStars(rating, 'big'),
 	          place.reviews ? _react2.default.createElement(
 	            'button',
-	            { onClick: this.renderReviews },
-	            'Reviews'
-	          ) : "No Reviews"
+	            { className: 'detail-buttons',
+	              onClick: this.renderReviews },
+	            place.reviews.length,
+	            ' Reviews'
+	          ) : _react2.default.createElement(
+	            'div',
+	            { className: 'detail-buttons' },
+	            'No Reviews'
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'search' },
-	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.renderSearch },
-	            'Search'
-	          )
+	          'button',
+	          { style: { fontSize: '25px', textAlign: 'right' }, className: 'detail-buttons',
+	            onClick: this.renderSearch },
+	          place.name,
+	          ' News'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -22027,21 +22055,36 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              place.formatted_address
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
+	              _react2.default.createElement('img', { style: { height: '30px' }, src: './assets/img/compass.jpg' }),
 	              _react2.default.createElement(
-	                'a',
-	                { href: place.website, target: '_blank' },
-	                place.website
+	                'div',
+	                null,
+	                place.formatted_address
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              place.formatted_phone_number
+	              _react2.default.createElement('img', { style: { height: '25px' }, src: './assets/img/web.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: place.website, target: '_blank' },
+	                  place.website
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement('img', { style: { height: '25px' }, src: './assets/img/phone.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                place.formatted_phone_number
+	              )
 	            )
 	          )
 	        )

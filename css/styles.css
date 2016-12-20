@@ -11,6 +11,7 @@ a {
   text-decoration: none;
 }
 
+button:focus {outline:0;}
 
 .root {
   width: 100%;
@@ -105,10 +106,11 @@ a {
 
 .place-details-container {
   background: white;
-  max-height: 78vh;
+  max-height: 75vh;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
 .place-details-header {
@@ -117,13 +119,40 @@ a {
   justify-content: flex-end;
 }
 
+.place-details-info li {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: grey;
+}
+
+.place-details-info li div {
+  width: 257px;
+}
+
 .place-detail-title {
   margin: 10px;
   font-family: 'Roboto', sans-serif;
   font-size: 32px;
   color: white;
   width: 285px;
-  text-align: center;
+  text-align: right;
+  margin-right: 25px;
+}
+
+.detail-buttons {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: grey;
+  box-sizing: none;
+  width: 100%;
+}
+
+.detail-buttons:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .back-arrow:hover {
@@ -131,6 +160,8 @@ a {
 }
 
 .stars {
+  display: flex;
+  justify-content: center;
 }
 
 .big-star {
@@ -154,7 +185,12 @@ a {
 }
 
 .reviews {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 40px;
+  margin-bottom: 20px;
 }
+
 
 .review-index {
   overflow: auto;

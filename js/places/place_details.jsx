@@ -30,7 +30,7 @@ class PlaceDetails extends Component {
   buildStars(numStars, size) {
     let stars = [];
     for(let i = 0; i < 5; i++) {
-      if (i <= numStars) {
+      if (i < numStars) {
         stars.push(<img className={`${size}-star`} key={i} src='./assets/img/star.png' />);
       } else {
         stars.push(<img className={`${size}-star`} key={i} src='./assets/img/no_star.png' />);
@@ -63,13 +63,35 @@ class PlaceDetails extends Component {
     const place = this.props.placeDetails;
     let open;
     if (place.opening_hours) {
-      open = <li>{place.opening_hours.open_now ? "Open" : "Closed"}</li>;
+      open = (
+        <div>
+          {place.opening_hours.open_now ? "Open" : "Closed"} Now
+          <ul style={{marginBottom: '10px'}}>
+            {place.opening_hours.weekday_text.map(day => {
+              return <li style={{fontSize: '13px', color: 'grey', padding: '2px'}} key={day}>{day}</li>;
+            })}
+          </ul>
+        </div>
+      );
     }
     const photos = place.photos ? place.photos.map(photo => {
       return(photo.getUrl({ maxWidth: 360, maxHeight: 200 }));
     }) : ['./assets/img/no_image.png'];
 
     console.log(place);
+
+    let rating = 0;
+
+    if (!place.rating && place.reviews) {
+      let sum = 0;
+      place.reviews.forEach(review => {
+        sum += review.rating;
+      });
+      rating = parseInt(sum / place.reviews.length);
+    } else if (place.rating) {
+      rating = parseInt(place.rating);
+    }
+
 
     return(<div>
       <div className="photo-slider">
@@ -80,18 +102,28 @@ class PlaceDetails extends Component {
         </Slider>
       </div>
       <div className="reviews">
-        {this.buildStars(parseInt(place.rating), 'big')}
-        {place.reviews ? <button onClick={this.renderReviews}>Reviews</button> : "No Reviews"}
+        {this.buildStars(rating, 'big')}
+        {place.reviews ? <button className='detail-buttons'
+          onClick={this.renderReviews}>{place.reviews.length} Reviews</button> :
+          <div className='detail-buttons'>No Reviews</div>}
       </div>
-      <div className="search">
-        <button onClick={this.renderSearch}>Search</button>
-      </div>
-          <div className="place-details-info">
+      <button style={{fontSize: '25px', textAlign: 'right'}} className='detail-buttons'
+        onClick={this.renderSearch}>{place.name} News</button>
+      <div className="place-details-info">
         <ul>
           {open}
-          <li>{place.formatted_address}</li>
-          <li><a href={place.website} target="_blank">{place.website}</a></li>
-          <li>{place.formatted_phone_number}</li>
+          <li>
+            <img style={{height: '30px'}} src='./assets/img/compass.jpg' />
+            <div>{place.formatted_address}</div>
+          </li>
+          <li>
+            <img style={{height: '25px'}} src='./assets/img/web.png' />
+            <div><a href={place.website} target="_blank">{place.website}</a></div>
+          </li>
+          <li>
+            <img style={{height: '25px'}} src='./assets/img/phone.png' />
+            <div>{place.formatted_phone_number}</div>
+          </li>
         </ul>
       </div>
     </div>);
