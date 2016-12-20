@@ -21693,23 +21693,22 @@
 	              newPlaces.push(place);
 	            }
 	          });
-	
 	          _this2.setState({ places: newPlaces, shouldUpdate: false });
 	        };
 	
 	        google.maps.event.addListener(map, 'bounds_changed', updatePlaces);
 	      });
 	
-	      // if(navigator.geolocation) {
-	      //   navigator.geolocation.getCurrentPosition(position => {
-	      //     const pos = {
-	      //       lat: position.coords.latitude,
-	      //       lng: position.coords.longitude
-	      //     };
-	      //     map.setCenter(pos);
-	      //     this.setState({position: pos});
-	      //   });
-	      // }
+	      if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	          var pos = {
+	            lat: position.coords.latitude,
+	            lng: position.coords.longitude
+	          };
+	          map.setCenter(pos);
+	          _this2.setState({ position: pos });
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -21720,7 +21719,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'map-container' },
-	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for Places and Locations' }),
+	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for anything!' }),
 	          _react2.default.createElement('div', { id: 'map', style: { width: "100vw", height: "100vh" } })
 	        ),
 	        _react2.default.createElement('img', { className: 'zenefits-logo', src: './assets/img/zenefits.png' }),
@@ -21789,35 +21788,41 @@
 	  _createClass(PlacesIndex, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(props) {
+	      var _this2 = this;
+	
 	      if (props.places !== this.props.places && this.state.index === false && this.props.shouldUpdate) {
 	        this.setState({ index: true });
+	      } else if (props.places !== this.props.places && this.state.index) {
+	        props.places.forEach(function (place) {
+	          if (!place.marker.map) place.marker.setMap(_this2.props.map);
+	        });
 	      }
 	    }
 	  }, {
 	    key: 'showDetails',
 	    value: function showDetails(place) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      return function () {
-	        if (!_this2.state.index) {
-	          _this2.props.places.forEach(function (p) {
-	            p.marker.setMap(_this2.props.map);
+	        if (!_this3.state.index) {
+	          _this3.props.places.forEach(function (p) {
+	            p.marker.setMap(_this3.props.map);
 	          });
 	        }
-	        _this2.setState({ index: !_this2.state.index, place: place });
+	        _this3.setState({ index: !_this3.state.index, place: place });
 	      };
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'places-container' },
 	        this.state.index ? this.props.places.map(function (place) {
-	          _this3.key++;
-	          return _react2.default.createElement(_places_index_item2.default, { onClick: _this3.showDetails(place.place), key: _this3.key, place: place });
+	          _this4.key++;
+	          return _react2.default.createElement(_places_index_item2.default, { onClick: _this4.showDetails(place.place), key: _this4.key, place: place });
 	        }) : _react2.default.createElement(_place_details2.default, { goBack: this.showDetails(this.state.place),
 	          placeDetails: this.props.placeDetails,
 	          getDetails: this.props.getDetails,

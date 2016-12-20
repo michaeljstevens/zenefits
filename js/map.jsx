@@ -37,7 +37,8 @@ class Map extends Component {
     const detailsCallback = (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         this.state.allPlaces.forEach(place => {
-          if (place.place.geometry.location.lat() !== results.geometry.location.lat() || place.place.geometry.location.lng() !== results.geometry.location.lng()) {
+          if (place.place.geometry.location.lat() !== results.geometry.location.lat() ||
+          place.place.geometry.location.lng() !== results.geometry.location.lng()) {
             place.marker.setMap(null);
           }
         });
@@ -135,7 +136,6 @@ class Map extends Component {
             newPlaces.push(place);
           }
         });
-
         this.setState({places: newPlaces, shouldUpdate: false});
       };
 
@@ -143,23 +143,23 @@ class Map extends Component {
     });
 
 
-    // if(navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     const pos = {
-    //       lat: position.coords.latitude,
-    //       lng: position.coords.longitude
-    //     };
-    //     map.setCenter(pos);
-    //     this.setState({position: pos});
-    //   });
-    // }
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+        this.setState({position: pos});
+      });
+    }
   }
 
   render() {
     return(
       <div>
         <div className='map-container'>
-          <input id="pac-input" className="search-box" type="text" placeholder="Search for Places and Locations"/>
+          <input id="pac-input" className="search-box" type="text" placeholder="Search for anything!"/>
           <div id='map' style={{width: "100vw", height: "100vh"}}></div>
         </div>
         <img className='zenefits-logo' src='./assets/img/zenefits.png' />
