@@ -159,7 +159,7 @@ class Map extends Component {
     return(
       <div>
         <div className='map-container'>
-          <input id="pac-input" className="search-box" type="text" placeholder="Search for anything!"/>
+          <input id="pac-input" className="search-box" type="text" placeholder="Search by location or location type!"/>
           <div id='map' style={{width: "100vw", height: "100vh"}}></div>
         </div>
         <img className='zenefits-logo' src='./assets/img/zenefits.png' />

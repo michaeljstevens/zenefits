@@ -28,6 +28,12 @@ button:focus {outline:0;}
   height: 100px;
   top: 10px;
   right: 10px;
+  transition: transform .8s ease-in-out;
+}
+
+.zenefits-logo:hover {
+  cursor: auto;
+  transform: rotate(360deg);
 }
 
 .map-container {

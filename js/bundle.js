@@ -21719,7 +21719,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'map-container' },
-	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for anything!' }),
+	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search by location or location type!' }),
 	          _react2.default.createElement('div', { id: 'map', style: { width: "100vw", height: "100vh" } })
 	        ),
 	        _react2.default.createElement('img', { className: 'zenefits-logo', src: './assets/img/zenefits.png' }),
