@@ -21874,7 +21874,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactImageSlider = __webpack_require__(200);
+	var _reactImageSlider = __webpack_require__(184);
 	
 	var _reactImageSlider2 = _interopRequireDefault(_reactImageSlider);
 	
@@ -22054,23 +22054,7 @@
 
 /***/ },
 /* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22085,7 +22069,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ImageSliderHoc = __webpack_require__(201);
+	var _ImageSliderHoc = __webpack_require__(185);
 	
 	var _ImageSliderHoc2 = _interopRequireDefault(_ImageSliderHoc);
 	
@@ -22274,7 +22258,7 @@
 	exports.default = (0, _ImageSliderHoc2.default)(Slider);
 
 /***/ },
-/* 201 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
