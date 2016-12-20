@@ -7,6 +7,10 @@ ul {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 
 .root {
   width: 100%;
@@ -48,6 +52,7 @@ ul {
   overflow-x: hidden;
   border-radius: 2px;
   box-shadow: 1px 1px 15px;
+  max-height: 88vh;
 }
 
 .place-container {
@@ -74,6 +79,7 @@ ul {
   height: 100px;
   width: 100px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .place-name {
@@ -99,9 +105,10 @@ ul {
 
 .place-details-container {
   background: white;
-  max-height: 80vh;
+  max-height: 78vh;
   width: 100%;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 .place-details-header {
@@ -168,16 +175,34 @@ ul {
 }
 
 .review-author {
-  font-size: 20px;
+  font-size: 16px;
+  color: grey;
+  text-align: center;
 }
 
 .review-time {
   font-size: 14px;
+  color: lightgrey;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.review-expand {
+  margin-top: 10px;
+  font-size: 14px;
   color: grey;
+  text-align: right;
+}
+
+.review-expand:hover {
+  color: lightgrey;
+  cursor: pointer;
 }
 
 .review-text {
   margin-left: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .review-item {
@@ -205,6 +230,7 @@ ul {
   width: 100px;
   height: 100px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .news-text {

@@ -22098,6 +22098,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _place_review_item = __webpack_require__(188);
+	
+	var _place_review_item2 = _interopRequireDefault(_place_review_item);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22122,36 +22126,7 @@
 	
 	      var place = this.props.placeDetails;
 	      var reviews = place.reviews.map(function (review) {
-	        var url = review.profile_photo_url ? 'https://' + review.profile_photo_url.slice(2) : './assets/img/no_image.png';
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'review-item', key: review.time },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'review-info' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'review-author' },
-	              review.author_name
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { href: review.author_url, target: '_blank' },
-	              _react2.default.createElement('img', { className: 'review-photo', src: url })
-	            ),
-	            _this2.props.buildStars(parseInt(review.rating), 'small'),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'review-time' },
-	              review.relative_time_description
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'review-text' },
-	            review.text
-	          )
-	        );
+	        return _react2.default.createElement(_place_review_item2.default, { key: review.time, review: review, buildStars: _this2.props.buildStars });
 	      });
 	      return _react2.default.createElement(
 	        'div',
@@ -32823,6 +32798,103 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PlaceReviewItem = function (_Component) {
+	  _inherits(PlaceReviewItem, _Component);
+	
+	  function PlaceReviewItem(props) {
+	    _classCallCheck(this, PlaceReviewItem);
+	
+	    var _this = _possibleConstructorReturn(this, (PlaceReviewItem.__proto__ || Object.getPrototypeOf(PlaceReviewItem)).call(this, props));
+	
+	    console.log(_this.props.review.text.length);
+	    _this.state = {
+	      shortText: _this.props.review.text.trim().substring(0, 150) + '...',
+	      longText: _this.props.review.text,
+	      expandable: _this.props.review.text.length >= 150 ? true : false,
+	      expanded: false
+	    };
+	    _this.toggleExpand = _this.toggleExpand.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(PlaceReviewItem, [{
+	    key: 'toggleExpand',
+	    value: function toggleExpand() {
+	      this.setState({ expanded: !this.state.expanded });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var url = this.props.review.profile_photo_url ? 'https://' + this.props.review.profile_photo_url.slice(2) : './assets/img/no_image.png';
+	
+	      var expand = _react2.default.createElement(
+	        'div',
+	        { className: 'review-expand', onClick: this.toggleExpand },
+	        this.state.expanded ? "Less" : "More"
+	      );
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'review-item' },
+	        _react2.default.createElement(
+	          'a',
+	          { href: this.props.review.author_url, target: '_blank' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'review-info' },
+	            _react2.default.createElement('img', { className: 'review-photo', src: url }),
+	            this.props.buildStars(parseInt(this.props.review.rating), 'small'),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'review-author' },
+	              this.props.review.author_name
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'review-time' },
+	              this.props.review.relative_time_description
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'review-text' },
+	          this.state.expandable && !this.state.expanded ? this.state.shortText : this.state.longText,
+	          this.state.expandable ? expand : null
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return PlaceReviewItem;
+	}(_react.Component);
+	
+	exports.default = PlaceReviewItem;
 
 /***/ }
 /******/ ]);
