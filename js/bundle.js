@@ -21565,7 +21565,8 @@
 	      position: { lat: 37.782703500000004, lng: -122.4194 },
 	      places: [],
 	      getDetails: null,
-	      placeDetails: null
+	      placeDetails: null,
+	      shouldUpdate: true
 	    };
 	    return _this;
 	  }
@@ -21666,10 +21667,40 @@
 	          }
 	        });
 	
-	        _this2.setState({ places: places, getDetails: getDetails });
+	        _this2.setState({ allPlaces: places, places: places, getDetails: getDetails, shouldUpdate: true });
 	        map.fitBounds(bounds);
+	
+	        var updatePlaces = function updatePlaces() {
+	          var newMarkers = [];
+	          var bounds = new google.maps.LatLngBounds();
+	          bounds = map.getBounds();
+	
+	          markers.forEach(function (marker) {
+	            if (bounds.contains(marker.getPosition())) {
+	              newMarkers.push(marker);
+	            }
+	          });
+	
+	          var markerPositions = {};
+	
+	          newMarkers.forEach(function (marker) {
+	            markerPositions[marker.position] = true;
+	          });
+	
+	          var newPlaces = [];
+	          _this2.state.allPlaces.forEach(function (place) {
+	            if (markerPositions[place.geometry.location]) {
+	              newPlaces.push(place);
+	            }
+	          });
+	
+	          _this2.setState({ places: newPlaces, shouldUpdate: false });
+	        };
+	
+	        google.maps.event.addListener(map, 'bounds_changed', updatePlaces);
 	      });
 	
+	      //
 	      // if(navigator.geolocation) {
 	      //   navigator.geolocation.getCurrentPosition(position => {
 	      //     const pos = {
@@ -21695,7 +21726,8 @@
 	        ),
 	        _react2.default.createElement(_places_index2.default, { getDetails: this.state.getDetails,
 	          placeDetails: this.state.placeDetails,
-	          places: this.state.places })
+	          places: this.state.places,
+	          shouldUpdate: this.state.shouldUpdate })
 	      );
 	    }
 	  }]);
@@ -21756,7 +21788,7 @@
 	  _createClass(PlacesIndex, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(props) {
-	      if (props.places !== this.props.places && this.state.index === false) {
+	      if (props.places !== this.props.places && this.state.index === false && this.props.shouldUpdate) {
 	        this.setState({ index: true });
 	      }
 	    }

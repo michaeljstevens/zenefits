@@ -9,7 +9,8 @@ class Map extends Component {
       position: {lat: 37.782703500000004, lng: -122.4194},
       places: [],
       getDetails: null,
-      placeDetails: null
+      placeDetails: null,
+      shouldUpdate: true
     };
   }
 
@@ -108,11 +109,40 @@ class Map extends Component {
         }
       });
 
-      this.setState({ places: places, getDetails: getDetails });
+      this.setState({ allPlaces: places, places: places, getDetails: getDetails, shouldUpdate: true });
       map.fitBounds(bounds);
+
+      const updatePlaces = () => {
+        let newMarkers = [];
+        let bounds = new google.maps.LatLngBounds();
+        bounds = map.getBounds();
+
+        markers.forEach(marker => {
+          if (bounds.contains(marker.getPosition())) {
+            newMarkers.push(marker);
+          }
+        });
+
+        let markerPositions = {};
+
+        newMarkers.forEach(marker => {
+          markerPositions[marker.position] = true;
+        });
+
+        let newPlaces = [];
+        this.state.allPlaces.forEach(place => {
+          if (markerPositions[place.geometry.location]) {
+            newPlaces.push(place);
+          }
+        });
+
+        this.setState({places: newPlaces, shouldUpdate: false});
+      };
+
+      google.maps.event.addListener(map,'bounds_changed', updatePlaces);
     });
 
-
+    //
     // if(navigator.geolocation) {
     //   navigator.geolocation.getCurrentPosition(position => {
     //     const pos = {
@@ -134,7 +164,8 @@ class Map extends Component {
         </div>
         <PlacesIndex getDetails={this.state.getDetails}
           placeDetails={this.state.placeDetails}
-          places={this.state.places} />
+          places={this.state.places}
+          shouldUpdate={this.state.shouldUpdate} />
       </div>
     );
   }

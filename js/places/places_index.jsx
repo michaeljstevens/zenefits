@@ -14,7 +14,7 @@ class PlacesIndex extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.places !== this.props.places && this.state.index === false) {
+    if (props.places !== this.props.places && this.state.index === false && this.props.shouldUpdate) {
       this.setState({index: true});
     }
   }

@@ -25,6 +25,7 @@ button:focus {outline:0;}
 .map-container {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .search-box {
@@ -53,7 +54,7 @@ button:focus {outline:0;}
   overflow-x: hidden;
   border-radius: 2px;
   box-shadow: 1px 1px 15px;
-  max-height: 88vh;
+  max-height: 95%;
 }
 
 .place-container {
@@ -106,7 +107,7 @@ button:focus {outline:0;}
 
 .place-details-container {
   background: white;
-  max-height: 75vh;
+  max-height: 79vh;
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
@@ -123,6 +124,7 @@ button:focus {outline:0;}
   padding: 5px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   color: grey;
 }
