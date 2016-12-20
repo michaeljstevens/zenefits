@@ -22,10 +22,18 @@ button:focus {outline:0;}
   overflow: hidden;
 }
 
+.zenefits-logo {
+  z-index: 3;
+  position: absolute;
+  height: 100px;
+  top: 10px;
+  right: 10px;
+}
 
 .map-container {
   width: 100vw;
   height: 100vh;
+  min-width: 600px;
   overflow: hidden;
 }
 

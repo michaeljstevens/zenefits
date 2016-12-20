@@ -135,17 +135,17 @@ class Map extends Component {
       google.maps.event.addListener(map,'bounds_changed', updatePlaces);
     });
 
-    //
-    // if(navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     const pos = {
-    //       lat: position.coords.latitude,
-    //       lng: position.coords.longitude
-    //     };
-    //     map.setCenter(pos);
-    //     this.setState({position: pos});
-    //   });
-    // }
+
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+        this.setState({position: pos});
+      });
+    }
   }
 
   render() {
@@ -155,6 +155,7 @@ class Map extends Component {
           <input id="pac-input" className="search-box" type="text" placeholder="Search for Places and Locations"/>
           <div id='map' style={{width: "100vw", height: "100vh"}}></div>
         </div>
+        <img className='zenefits-logo' src='./assets/img/zenefits.png' />
         <PlacesIndex getDetails={this.state.getDetails}
           placeDetails={this.state.placeDetails}
           places={this.state.places}

@@ -21693,17 +21693,16 @@
 	        google.maps.event.addListener(map, 'bounds_changed', updatePlaces);
 	      });
 	
-	      //
-	      // if(navigator.geolocation) {
-	      //   navigator.geolocation.getCurrentPosition(position => {
-	      //     const pos = {
-	      //       lat: position.coords.latitude,
-	      //       lng: position.coords.longitude
-	      //     };
-	      //     map.setCenter(pos);
-	      //     this.setState({position: pos});
-	      //   });
-	      // }
+	      if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	          var pos = {
+	            lat: position.coords.latitude,
+	            lng: position.coords.longitude
+	          };
+	          map.setCenter(pos);
+	          _this2.setState({ position: pos });
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -21717,6 +21716,7 @@
 	          _react2.default.createElement('input', { id: 'pac-input', className: 'search-box', type: 'text', placeholder: 'Search for Places and Locations' }),
 	          _react2.default.createElement('div', { id: 'map', style: { width: "100vw", height: "100vh" } })
 	        ),
+	        _react2.default.createElement('img', { className: 'zenefits-logo', src: './assets/img/zenefits.png' }),
 	        _react2.default.createElement(_places_index2.default, { getDetails: this.state.getDetails,
 	          placeDetails: this.state.placeDetails,
 	          places: this.state.places,
