@@ -30,7 +30,7 @@ class PlacesIndex extends Component {
       <div className='places-container'>
         { this.state.index ? this.props.places.map(place => {
           this.key++;
-          return <PlacesIndexItem onClick={this.showDetails(place)} key={this.key} place={place} />;
+          return <PlacesIndexItem onClick={this.showDetails(place.place)} key={this.key} place={place} />;
         }) : <PlaceDetails goBack={this.showDetails(this.state.place)}
         placeDetails={this.props.placeDetails}
         getDetails={this.props.getDetails}

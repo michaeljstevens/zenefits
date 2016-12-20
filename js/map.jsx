@@ -74,6 +74,7 @@ class Map extends Component {
 
     searchBox.addListener('places_changed', () => {
       const places = searchBox.getPlaces();
+      let allPlaces = [];
       const placeDetails = [];
 
       if(places.length === 0) return;
@@ -86,7 +87,6 @@ class Map extends Component {
       const bounds = new google.maps.LatLngBounds();
       places.forEach(place => {
         if(!place.geometry) return;
-
         const icon = {
           url: place.icon,
           size: new google.maps.Size(71, 71),
@@ -95,12 +95,17 @@ class Map extends Component {
           scaledSize: new google.maps.Size(25, 25)
         };
 
-        markers.push(new google.maps.Marker({
+        const marker = new google.maps.Marker({
           map: map,
           icon: icon,
           title: place.name,
           position: place.geometry.location
-        }));
+        });
+
+        allPlaces.push({
+          place: place,
+          marker: marker
+        });
 
         if (place.geometry.viewport) {
           bounds.union(place.geometry.viewport);
@@ -109,29 +114,17 @@ class Map extends Component {
         }
       });
 
-      this.setState({ allPlaces: places, places: places, getDetails: getDetails, shouldUpdate: true });
+      this.setState({ allPlaces: allPlaces, places: allPlaces, getDetails: getDetails, shouldUpdate: true });
       map.fitBounds(bounds);
 
       const updatePlaces = () => {
-        let newMarkers = [];
+        let newPlaces = [];
+
         let bounds = new google.maps.LatLngBounds();
         bounds = map.getBounds();
 
-        markers.forEach(marker => {
-          if (bounds.contains(marker.getPosition())) {
-            newMarkers.push(marker);
-          }
-        });
-
-        let markerPositions = {};
-
-        newMarkers.forEach(marker => {
-          markerPositions[marker.position] = true;
-        });
-
-        let newPlaces = [];
         this.state.allPlaces.forEach(place => {
-          if (markerPositions[place.geometry.location]) {
+          if (bounds.contains(place.marker.getPosition())) {
             newPlaces.push(place);
           }
         });

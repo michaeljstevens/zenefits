@@ -66,7 +66,7 @@ class PlaceDetails extends Component {
       open = (
         <div>
           {place.opening_hours.open_now ? "Open" : "Closed"} Now
-          <ul style={{marginBottom: '10px'}}>
+          <ul style={{margin: '12px 0px 12px 0px'}}>
             {place.opening_hours.weekday_text.map(day => {
               return <li style={{fontSize: '13px', color: 'grey', padding: '2px'}} key={day}>{day}</li>;
             })}
@@ -107,7 +107,7 @@ class PlaceDetails extends Component {
           onClick={this.renderReviews}>{place.reviews.length} Reviews</button> :
           <div className='detail-buttons'>No Reviews</div>}
       </div>
-      <button style={{fontSize: '25px', textAlign: 'right'}} className='detail-buttons'
+      <button style={{paddingRight: '43px', color: 'red', fontWeight: 'bold', textAlign: 'right'}} className='detail-buttons'
         onClick={this.renderSearch}>{place.name} News</button>
       <div className="place-details-info">
         <ul>

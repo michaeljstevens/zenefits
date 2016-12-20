@@ -21632,6 +21632,7 @@
 	
 	      searchBox.addListener('places_changed', function () {
 	        var places = searchBox.getPlaces();
+	        var allPlaces = [];
 	        var placeDetails = [];
 	
 	        if (places.length === 0) return;
@@ -21644,7 +21645,6 @@
 	        var bounds = new google.maps.LatLngBounds();
 	        places.forEach(function (place) {
 	          if (!place.geometry) return;
-	
 	          var icon = {
 	            url: place.icon,
 	            size: new google.maps.Size(71, 71),
@@ -21653,12 +21653,17 @@
 	            scaledSize: new google.maps.Size(25, 25)
 	          };
 	
-	          markers.push(new google.maps.Marker({
+	          var marker = new google.maps.Marker({
 	            map: map,
 	            icon: icon,
 	            title: place.name,
 	            position: place.geometry.location
-	          }));
+	          });
+	
+	          allPlaces.push({
+	            place: place,
+	            marker: marker
+	          });
 	
 	          if (place.geometry.viewport) {
 	            bounds.union(place.geometry.viewport);
@@ -21667,29 +21672,17 @@
 	          }
 	        });
 	
-	        _this2.setState({ allPlaces: places, places: places, getDetails: getDetails, shouldUpdate: true });
+	        _this2.setState({ allPlaces: allPlaces, places: allPlaces, getDetails: getDetails, shouldUpdate: true });
 	        map.fitBounds(bounds);
 	
 	        var updatePlaces = function updatePlaces() {
-	          var newMarkers = [];
+	          var newPlaces = [];
+	
 	          var bounds = new google.maps.LatLngBounds();
 	          bounds = map.getBounds();
 	
-	          markers.forEach(function (marker) {
-	            if (bounds.contains(marker.getPosition())) {
-	              newMarkers.push(marker);
-	            }
-	          });
-	
-	          var markerPositions = {};
-	
-	          newMarkers.forEach(function (marker) {
-	            markerPositions[marker.position] = true;
-	          });
-	
-	          var newPlaces = [];
 	          _this2.state.allPlaces.forEach(function (place) {
-	            if (markerPositions[place.geometry.location]) {
+	            if (bounds.contains(place.marker.getPosition())) {
 	              newPlaces.push(place);
 	            }
 	          });
@@ -21811,7 +21804,7 @@
 	        { className: 'places-container' },
 	        this.state.index ? this.props.places.map(function (place) {
 	          _this3.key++;
-	          return _react2.default.createElement(_places_index_item2.default, { onClick: _this3.showDetails(place), key: _this3.key, place: place });
+	          return _react2.default.createElement(_places_index_item2.default, { onClick: _this3.showDetails(place.place), key: _this3.key, place: place });
 	        }) : _react2.default.createElement(_place_details2.default, { goBack: this.showDetails(this.state.place),
 	          placeDetails: this.props.placeDetails,
 	          getDetails: this.props.getDetails,
@@ -21855,17 +21848,32 @@
 	  function PlacesIndexItem(props) {
 	    _classCallCheck(this, PlacesIndexItem);
 	
-	    return _possibleConstructorReturn(this, (PlacesIndexItem.__proto__ || Object.getPrototypeOf(PlacesIndexItem)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (PlacesIndexItem.__proto__ || Object.getPrototypeOf(PlacesIndexItem)).call(this, props));
+	
+	    _this.bounceMarker = _this.bounceMarker.bind(_this);
+	    _this.stopBounce = _this.stopBounce.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(PlacesIndexItem, [{
+	    key: 'bounceMarker',
+	    value: function bounceMarker() {
+	      this.props.place.marker.setAnimation(google.maps.Animation.BOUNCE);
+	    }
+	  }, {
+	    key: 'stopBounce',
+	    value: function stopBounce() {
+	      this.props.place.marker.setAnimation(null);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var place = this.props.place;
+	      var place = this.props.place.place;
 	      var img = place.photos ? place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : './assets/img/no_image.png';
 	      return _react2.default.createElement(
 	        'div',
-	        { onClick: this.props.onClick, className: 'place-container' },
+	        { onMouseOver: this.bounceMarker, onMouseOut: this.stopBounce,
+	          onClick: this.props.onClick, className: 'place-container' },
 	        _react2.default.createElement('img', { className: 'place-item-image', src: img }),
 	        _react2.default.createElement(
 	          'div',
@@ -22011,7 +22019,7 @@
 	          ' Now',
 	          _react2.default.createElement(
 	            'ul',
-	            { style: { marginBottom: '10px' } },
+	            { style: { margin: '12px 0px 12px 0px' } },
 	            place.opening_hours.weekday_text.map(function (day) {
 	              return _react2.default.createElement(
 	                'li',
@@ -22072,7 +22080,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { style: { fontSize: '25px', textAlign: 'right' }, className: 'detail-buttons',
+	          { style: { paddingRight: '43px', color: 'red', fontWeight: 'bold', textAlign: 'right' }, className: 'detail-buttons',
 	            onClick: this.renderSearch },
 	          place.name,
 	          ' News'
