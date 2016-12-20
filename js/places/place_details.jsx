@@ -15,6 +15,7 @@ class PlaceDetails extends Component {
     };
     this.renderReviews = this.renderReviews.bind(this);
     this.renderSearch = this.renderSearch.bind(this);
+    this.navigate = this.navigate.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -46,6 +47,18 @@ class PlaceDetails extends Component {
     this.setState({details: !this.state.details, reviews: false, search: !this.state.search});
   }
 
+  navigate(loc) {
+
+    const reviews = this.state.details && loc === 'reviews' ? true : false;
+    const search = this.state.details && loc === 'search' ? true : false;
+
+    this.setState({
+      details: !this.state.details,
+      reviews: reviews,
+      search: search
+    });
+  }
+
   buildDetails() {
     const place = this.props.placeDetails;
     let open;
@@ -59,10 +72,6 @@ class PlaceDetails extends Component {
     console.log(place);
 
     return(<div className="place-detail-container">
-      <div className="place-details-header">
-        <img className="back-arrow" src='./assets/img/back.png' onClick={this.props.goBack} />
-        <div className="place-detail-title">{place.name}</div>
-      </div>
       <div className="photo-slider">
         <Slider images={photos} isInfinite delay={5000}>
           {photos.map(photo => {
@@ -91,13 +100,15 @@ class PlaceDetails extends Component {
   render() {
     return(
       <div>
+        <div className="place-details-header">
+          <img className="back-arrow" src='./assets/img/back.png' onClick={this.state.details ? this.props.goBack : this.navigate} />
+          <div className="place-detail-title">{this.props.place.name}</div>
+        </div>
         {this.state.details ? this.buildDetails() : null}
         {this.state.reviews ? <PlaceReviews
-          renderReviews={this.renderReviews}
           placeDetails={this.state.placeDetails}
           buildStars={this.buildStars} /> : null}
         {this.state.search ? <PlaceSearch
-          renderSearch={this.renderSearch}
           place={this.props.place} /> : null}
       </div>
     );

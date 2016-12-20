@@ -38,16 +38,10 @@ class PlaceSearch extends Component {
   }
 
 
-
-
   render() {
     const place=this.props.place;
     return(
       <div>
-        <div className="place-details-header">
-          <img className="back-arrow" src='./assets/img/back.png' onClick={this.props.renderSearch} />
-          <div className="place-detail-title">{place.name}</div>
-        </div>
         <div className="news-index">
           {this.state.searchResults ? this.state.searchResults.map(result => {
             return(

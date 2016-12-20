@@ -21911,6 +21911,7 @@
 	    };
 	    _this.renderReviews = _this.renderReviews.bind(_this);
 	    _this.renderSearch = _this.renderSearch.bind(_this);
+	    _this.navigate = _this.navigate.bind(_this);
 	    return _this;
 	  }
 	
@@ -21953,6 +21954,19 @@
 	      this.setState({ details: !this.state.details, reviews: false, search: !this.state.search });
 	    }
 	  }, {
+	    key: 'navigate',
+	    value: function navigate(loc) {
+	
+	      var reviews = this.state.details && loc === 'reviews' ? true : false;
+	      var search = this.state.details && loc === 'search' ? true : false;
+	
+	      this.setState({
+	        details: !this.state.details,
+	        reviews: reviews,
+	        search: search
+	      });
+	    }
+	  }, {
 	    key: 'buildDetails',
 	    value: function buildDetails() {
 	      var place = this.props.placeDetails;
@@ -21973,16 +21987,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'place-detail-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'place-details-header' },
-	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.props.goBack }),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'place-detail-title' },
-	            place.name
-	          )
-	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'photo-slider' },
@@ -22049,13 +22053,21 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'place-details-header' },
+	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.state.details ? this.props.goBack : this.navigate }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'place-detail-title' },
+	            this.props.place.name
+	          )
+	        ),
 	        this.state.details ? this.buildDetails() : null,
 	        this.state.reviews ? _react2.default.createElement(_place_reviews2.default, {
-	          renderReviews: this.renderReviews,
 	          placeDetails: this.state.placeDetails,
 	          buildStars: this.buildStars }) : null,
 	        this.state.search ? _react2.default.createElement(_place_search2.default, {
-	          renderSearch: this.renderSearch,
 	          place: this.props.place }) : null
 	      );
 	    }
@@ -22140,16 +22152,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'review-index' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'place-details-header' },
-	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.props.renderReviews }),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'place-detail-title' },
-	            place.name
-	          )
-	        ),
 	        reviews
 	      );
 	    }
@@ -22554,16 +22556,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'place-details-header' },
-	          _react2.default.createElement('img', { className: 'back-arrow', src: './assets/img/back.png', onClick: this.props.renderSearch }),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'place-detail-title' },
-	            place.name
-	          )
-	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'news-index' },
